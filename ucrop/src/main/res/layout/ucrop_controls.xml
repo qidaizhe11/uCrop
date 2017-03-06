@@ -19,9 +19,10 @@
             android:id="@+id/layout_rotate_wheel"
             layout="@layout/ucrop_layout_rotate_wheel"/>
 
-        <include
-            android:id="@+id/layout_scale_wheel"
-            layout="@layout/ucrop_layout_scale_wheel"/>
+        <!--底栏的缩放控制模块，整体拿掉-->
+        <!--<include-->
+            <!--android:id="@+id/layout_scale_wheel"-->
+            <!--layout="@layout/ucrop_layout_scale_wheel"/>-->
 
     </FrameLayout>
 
@@ -41,16 +42,17 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-        <FrameLayout
-            android:id="@+id/state_scale"
-            style="@style/ucrop_WrapperIconState">
+        <!--底栏的缩放控制模块，整体拿掉-->
+        <!--<FrameLayout-->
+            <!--android:id="@+id/state_scale"-->
+            <!--style="@style/ucrop_WrapperIconState">-->
 
-            <ImageView
-                android:id="@+id/image_view_state_scale"
-                style="@style/ucrop_ImageViewWidgetIcon"
-                android:src="@drawable/ucrop_ic_scale"/>
+            <!--<ImageView-->
+                <!--android:id="@+id/image_view_state_scale"-->
+                <!--style="@style/ucrop_ImageViewWidgetIcon"-->
+                <!--android:src="@drawable/ucrop_ic_scale"/>-->
 
-        </FrameLayout>
+        <!--</FrameLayout>-->
 
         <FrameLayout
             android:id="@+id/state_aspect_ratio"

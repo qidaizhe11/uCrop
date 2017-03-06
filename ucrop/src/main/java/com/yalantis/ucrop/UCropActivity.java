@@ -290,16 +290,19 @@ public class UCropActivity extends AppCompatActivity {
             mWrapperStateAspectRatio.setOnClickListener(mStateClickListener);
             mWrapperStateRotate = (ViewGroup) findViewById(R.id.state_rotate);
             mWrapperStateRotate.setOnClickListener(mStateClickListener);
-            mWrapperStateScale = (ViewGroup) findViewById(R.id.state_scale);
-            mWrapperStateScale.setOnClickListener(mStateClickListener);
+            // 底栏的缩放控制模块，整体拿掉
+//            mWrapperStateScale = (ViewGroup) findViewById(R.id.state_scale);
+//            mWrapperStateScale.setOnClickListener(mStateClickListener);
 
             mLayoutAspectRatio = (ViewGroup) findViewById(R.id.layout_aspect_ratio);
             mLayoutRotate = (ViewGroup) findViewById(R.id.layout_rotate_wheel);
-            mLayoutScale = (ViewGroup) findViewById(R.id.layout_scale_wheel);
+            // 底栏的缩放控制模块，整体拿掉
+//            mLayoutScale = (ViewGroup) findViewById(R.id.layout_scale_wheel);
 
             setupAspectRatioWidget(intent);
             setupRotateWidget();
-            setupScaleWidget();
+            // 底栏的缩放控制模块，整体拿掉
+//            setupScaleWidget();
             setupStatesWrapper();
         }
     }
@@ -375,11 +378,13 @@ public class UCropActivity extends AppCompatActivity {
      * Use {@link #mActiveWidgetColor} for color filter
      */
     private void setupStatesWrapper() {
-        ImageView stateScaleImageView = (ImageView) findViewById(R.id.image_view_state_scale);
+        // 底栏的缩放控制模块，整体拿掉
+//        ImageView stateScaleImageView = (ImageView) findViewById(R.id.image_view_state_scale);
         ImageView stateRotateImageView = (ImageView) findViewById(R.id.image_view_state_rotate);
         ImageView stateAspectRatioImageView = (ImageView) findViewById(R.id.image_view_state_aspect_ratio);
 
-        stateScaleImageView.setImageDrawable(new SelectedStateListDrawable(stateScaleImageView.getDrawable(), mActiveWidgetColor));
+        // 底栏的缩放控制模块，整体拿掉
+//        stateScaleImageView.setImageDrawable(new SelectedStateListDrawable(stateScaleImageView.getDrawable(), mActiveWidgetColor));
         stateRotateImageView.setImageDrawable(new SelectedStateListDrawable(stateRotateImageView.getDrawable(), mActiveWidgetColor));
         stateAspectRatioImageView.setImageDrawable(new SelectedStateListDrawable(stateAspectRatioImageView.getDrawable(), mActiveWidgetColor));
     }
@@ -437,12 +442,21 @@ public class UCropActivity extends AppCompatActivity {
 
         mCropAspectRatioViews.get(aspectRationSelectedByDefault).setSelected(true);
 
+        // 默认的裁剪比例，初次加载时即直接启用
+        mGestureCropImageView.setTargetAspectRatio(
+                ((AspectRatioTextView) ((ViewGroup) mCropAspectRatioViews.get(aspectRationSelectedByDefault))
+                        .getChildAt(0)).getAspectRatio(false));
+        mGestureCropImageView.setImageToWrapCropBounds();
+
         for (ViewGroup cropAspectRatioView : mCropAspectRatioViews) {
             cropAspectRatioView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    // 裁剪比例选择，第二次点击比例反转功能，禁掉
+//                    mGestureCropImageView.setTargetAspectRatio(
+//                            ((AspectRatioTextView) ((ViewGroup) v).getChildAt(0)).getAspectRatio(v.isSelected()));
                     mGestureCropImageView.setTargetAspectRatio(
-                            ((AspectRatioTextView) ((ViewGroup) v).getChildAt(0)).getAspectRatio(v.isSelected()));
+                            ((AspectRatioTextView) ((ViewGroup) v).getChildAt(0)).getAspectRatio(false));
                     mGestureCropImageView.setImageToWrapCropBounds();
                     if (!v.isSelected()) {
                         for (ViewGroup cropAspectRatioView : mCropAspectRatioViews) {
@@ -555,7 +569,9 @@ public class UCropActivity extends AppCompatActivity {
             if (mWrapperStateAspectRatio.getVisibility() == View.VISIBLE) {
                 setWidgetState(R.id.state_aspect_ratio);
             } else {
-                setWidgetState(R.id.state_scale);
+                // 裁剪控制模块常现
+//                setWidgetState(R.id.state_scale);
+                setWidgetState(R.id.state_aspect_ratio);
             }
         } else {
             setAllowedGestures(0);
@@ -565,18 +581,34 @@ public class UCropActivity extends AppCompatActivity {
     private void setWidgetState(@IdRes int stateViewId) {
         if (!mShowBottomControls) return;
 
-        mWrapperStateAspectRatio.setSelected(stateViewId == R.id.state_aspect_ratio);
-        mWrapperStateRotate.setSelected(stateViewId == R.id.state_rotate);
-        mWrapperStateScale.setSelected(stateViewId == R.id.state_scale);
+        // 拿掉缩放控制及旋转控制模块
+        // 其中缩放控制模块，直接拿掉；旋转控制模块，保留一级缩放按钮，点击直接90度翻转图片
 
-        mLayoutAspectRatio.setVisibility(stateViewId == R.id.state_aspect_ratio ? View.VISIBLE : View.GONE);
-        mLayoutRotate.setVisibility(stateViewId == R.id.state_rotate ? View.VISIBLE : View.GONE);
-        mLayoutScale.setVisibility(stateViewId == R.id.state_scale ? View.VISIBLE : View.GONE);
+//        mWrapperStateAspectRatio.setSelected(stateViewId == R.id.state_aspect_ratio);
+//        mWrapperStateRotate.setSelected(stateViewId == R.id.state_rotate);
+//        mWrapperStateScale.setSelected(stateViewId == R.id.state_scale);
 
-        if (stateViewId == R.id.state_scale) {
+//        mLayoutAspectRatio.setVisibility(stateViewId == R.id.state_aspect_ratio ? View.VISIBLE : View.GONE);
+//        mLayoutRotate.setVisibility(stateViewId == R.id.state_rotate ? View.VISIBLE : View.GONE);
+//        mLayoutScale.setVisibility(stateViewId == R.id.state_scale ? View.VISIBLE : View.GONE);
+        mLayoutRotate.setVisibility(View.GONE);
+//        mLayoutScale.setVisibility(View.GONE);
+
+//        if (stateViewId == R.id.state_scale) {
+//            setAllowedGestures(0);
+//        } else if (stateViewId == R.id.state_rotate) {
+////            setAllowedGestures(1);
+//            rotateByAngle(90);
+//        } else {
+//            setAllowedGestures(2);
+//        }
+
+        if (stateViewId == R.id.state_aspect_ratio) {
+            // 禁用双指缩放时的图片旋转功能
             setAllowedGestures(0);
         } else if (stateViewId == R.id.state_rotate) {
-            setAllowedGestures(1);
+            // 底栏的一级缩放按钮，点击90度翻转图片
+            rotateByAngle(90);
         } else {
             setAllowedGestures(2);
         }
