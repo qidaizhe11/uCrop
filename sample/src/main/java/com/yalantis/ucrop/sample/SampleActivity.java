@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.yalantis.ucrop.UCrop;
 import com.yalantis.ucrop.UCropActivity;
+import com.yalantis.ucrop.model.AspectRatio;
 
 import java.io.File;
 import java.util.Locale;
@@ -317,6 +318,14 @@ public class SampleActivity extends BaseActivity {
             new AspectRatio("ASPECT", 1, 1));
 
        */
+
+        // Aspect ratio options
+        options.setAspectRatioOptions(0,
+                new AspectRatio("1:1", 1, 1),
+                new AspectRatio("3:2", 3, 2),
+                new AspectRatio("2:3", 2, 3),
+                new AspectRatio("4:3", 4, 3),
+                new AspectRatio("3:4", 3, 4));
 
         return uCrop.withOptions(options);
     }
